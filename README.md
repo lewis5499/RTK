@@ -34,7 +34,7 @@ Managed with VS 2017, all source code is available in the ./src directory.
 
 ![Alt Text](dataset/ConceptMap-2.svg)
 
-If you wish to run the RTK.exe program separately outside the project, consider modifying the configuration file reading location and recompiling the project. It is recommended to modify PATH_CFGDIR and PATH_LOGDIR in rtklib.h to ensure the configuration file is appropriately read and result files can be found (e.g., change '..\' to '.\').
+If you wish to run the RTK.exe program separately outside the project, consider modifying the configuration file reading location and recompiling the project. It is recommended to modify PATH_CFGDIR and PATH_LOGDIR in rtklib.h to ensure the configuration file is appropriately read and result files can be found (e.g., change '..\\' to '.\\').
 
 ### 2.2 Dependencies
 
