@@ -16,15 +16,12 @@
 *           2023 / 12 / 11   1.4
 *           2023 / 12 / 14   1.5
 *           2023 / 12 / 25   1.6
-*           2024 / 03 / 18	 1.7
-*           2024 / 04 / 09	 1.8 new
+*           2024 / 03 / 18   1.7
+*           2024 / 04 / 09   1.8 new
 *-----------------------------------------------------------------------------*/
 #include "confl.h"
-#include "matrix.h"
 #include "rtklib.h"
 #include "trace.h"
-
-using namespace matrix;
 
 FILE *traceLogfile = NULL;
 conf_t cfg;
