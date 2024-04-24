@@ -7,13 +7,21 @@ The RTK software supports dual-frequency, dual-system GPS (L1, L2) and BDS (BeiD
 The project's configuration file is rtkcfg.config in the ./config directory, providing different resolution parameters:
 
 ·Single-frequency + dual-frequency/Dual-frequency RTK
+
 ·Real-time/Post-processing RTK
+
 ·Static/Dynamic RTK
+
 ·Least squares/Extended Kalman filter
+
 ·Output debug information: yes/no
+
 ·Custom raw file/result output path
+
 ·'rtkplot' standard format for solution results
+
 ·Local synchronous storage of TCP client data
+
 ·Custom process/measurement noise, ratio threshold, satellite elevation angle cutoff, etc.
 
 ## 2 Program Compilation and Execution
