@@ -13,6 +13,11 @@ RTK软件支持GPS: L1,L2与BDS: B1I, B3I双频双系统，支持NovAtel OEM7格
 ### 2.1 源码及编译
 
 项目采用VS 2017管理, ./src目录下提供了所有源码。
+
+![Alt Text](dataset/ConceptMap-1.svg)
+
+![Alt Text](dataset/ConceptMap-2.svg)
+
 如果你想在项目外尝试单独执行RTK.exe程序，那么需要考虑一下修改配置文件的读取位置并且重新编译该项目，若如此做，建议在rtklib.h文件中修改PATH_CFGDIR与PATH_LOGDIR，确保配置文件能够被合适地读取、结果文件能够找到(比如，..\修改为.\即可)。
 
 ### 2.2 依赖库
