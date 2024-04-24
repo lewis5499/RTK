@@ -12,8 +12,8 @@
 *	Leading and trailing whitespace of the key and value will be trimmed,
 *	but there can be spaces in between.
 *
-*   Author: Liu Hengzhen
-*   Date: April 22nd, 2024
+*	Author: Liu Hengzhen
+*	Date: April 22nd, 2024
 */
 
 #ifndef _C_CONFIG_H_
