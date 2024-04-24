@@ -169,7 +169,7 @@ int fileMode(const char *fileRov, const char *fileLog, const char *filePos, cons
 int inputOEM7f(FILE *fp, epoch_t &obs, gpseph_t *ephgps, bdseph_t *ephbds)
 {
 	uint8_t	buff[MAXMSGLEN];
-	int data, idx;
+	int data;
 
 	while (1) {
 		memset(buff, 0, sizeof(uint8_t)*MAXMSGLEN);
@@ -181,8 +181,7 @@ int inputOEM7f(FILE *fp, epoch_t &obs, gpseph_t *ephgps, bdseph_t *ephbds)
 			}
 			if (syncOEM7(buff, (uint8_t)data)) break;
 		}
-		idx = decodeOEM7f(fp, buff, &obs, ephgps, ephbds);
-		if (!idx) return idx;
+		if (!decodeOEM7f(fp, buff, &obs, ephgps, ephbds)) return 0;
 	}
 }
 

@@ -392,7 +392,7 @@ void lsq_t::setParam(double *B, double *P, double *w, double *Q, double *m, int 
 	this->Q = Q;
 	this->m = m;
 	this->X = X;
-	this->mse = mse;
+	this->mse = 0.0;
 	this->rowB = rowB;
 	this->colB = colB;
 	this->sizeM = 3;

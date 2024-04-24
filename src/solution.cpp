@@ -984,7 +984,7 @@ RECOMPUTE:
 
 				/* Detect outlier/cycleslip: check bad freq from 'w' */
 				wtmp = MAX(fabs(w[row-1]),fabs(w[row-2]));
-				wstd = SQRT(cnt/(cnt + 1)*SQR(wstd) + SQR(wtmp-wmean)/(cnt + 1));
+				wstd = SQRT(SQR(wstd)*cnt/(cnt + 1) + SQR(wtmp-wmean)/(cnt + 1));
 				wmean = (wmean*cnt + wtmp) / (cnt + 1); // >=0
 
 				if(!cfg.fullfreqs) {
@@ -1294,15 +1294,13 @@ void checkConsistency(satobs_t *pre, satobs_t *cur, int n_pre, int n_cur, double
 	if (dt >= 2.0 && cfg.kinematic) return;
 
 	for (i = 0; i < MAXSYSNUM; i++) {
-		if (cur[i].Sys == UNKS)
-			continue;
+		if (cur[i].Sys == UNKS)	continue;
 
 		for (k = 0; k < n_pre; k++) {
 			if (pre[k].Sys==cur[i].Sys&&pre[k].Prn==cur[i].Prn) {
 				for (j = 0; j < 2; j++) {
 					if (!pre[k].validL[j] || !cur[i].validL[j] || !pre[k].validP[j] || !cur[i].validP[j] ||
-						fabs(pre[k].D[j]) < EPSILON || fabs(cur[i].D[j]) < EPSILON)
-						continue;
+						fabs(pre[k].D[j]) < EPSILON || fabs(cur[i].D[j]) < EPSILON)	continue;
 
 					wl = (cur[i].Sys == GPS) ? ((j == 0) ? WL1_GPS : WL2_GPS) : ((j == 0) ? WL1_BDS : WL3_BDS);
 					Dm = -(cur[i].D[j] + pre[k].D[j]) / 2.0;
@@ -1325,8 +1323,7 @@ void markOutlier(epoch_t *obs)
 	for (i = 0; i < MAXCHANNUM; i++) {
 		MWGFdpcy(&(obs->COBObs[i]), &(lastEpoch[i]));
 		obs->COBObs[i].reset();
-		if (initMWGF(obs, i) < 0)
-			obs->SatObs[i].Valid = false;//The dual-frequency pseudorange or phase observation value
+		if (initMWGF(obs, i) < 0)	obs->SatObs[i].Valid = false;//The dual-frequency pseudorange or phase observation value
 	}   // is missing/incomplete, or the carrier phase observation value at a certain frequency point has a cycle slip.
 
 	detectOutlier(obs, lastEpoch);
@@ -1353,13 +1350,9 @@ int initMWGF(epoch_t *obs, const int idx)
 	p[0] = obs->SatObs[idx].P[0];
 	p[1] = obs->SatObs[idx].P[1];
 
-	for (i = 0; i < 2; i++)	
-	{
-		if (obs->SatObs[idx].validP[i])
-			obs->SatObs[idx].validP[i] = (fabs(p[i]) > EPSILON);
-
-		if (obs->SatObs[idx].validL[i])
-			obs->SatObs[idx].validL[i] = (fabs(l[i]) > EPSILON && !(obs->SatObs[idx].lli[i] == LLI_SLIP));
+	for (i = 0; i < 2; i++)	{
+		if (obs->SatObs[idx].validP[i])	obs->SatObs[idx].validP[i] = (fabs(p[i]) > EPSILON);
+		if (obs->SatObs[idx].validL[i])	obs->SatObs[idx].validL[i] = (fabs(l[i]) > EPSILON && !(obs->SatObs[idx].lli[i] == LLI_SLIP));
 	}
 	
 	if (!(obs->SatObs[idx].validP[0] && obs->SatObs[idx].validP[1] && 
@@ -1530,7 +1523,7 @@ void detectCycleSlip(sdobs_t *SDobs, mwgf_t *lastEpoch)
 				//Cycle slips detection is conducted
 				dLGF = pic->LGF - pjc->LGF;
 				dLMW = pic->LMW - pjc->LMW;
-				stdMW = SQRT(pjc->n/(pjc->n+1)*SQR(pjc->stdLMW)+SQR(dLMW)/(pjc->n+1));
+				stdMW = SQRT(SQR(pjc->stdLMW)*pjc->n/(pjc->n+1)+SQR(dLMW)/(pjc->n+1));
 				
 				if (!cfg.kinematic)
 					isValid = (dLGF <= 0.02) && MAX(3*stdMW, 1.0);
