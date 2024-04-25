@@ -233,8 +233,10 @@ int outputPOSf(FILE *fp, pos_t *pos, raw_t *raw, char type) // match 'rtkplot.ex
 	//if (!pos->IsSuccess) return -1;
 	if (posCheck(&raw->RovObs, pos, raw) < 0) return -1;
 
-	int8_t Q; double BLH[3], dENU[3];
+	int8_t Q; double BLH[3], dENU[3]; ekf_t *pp; ddobs_t *dd;
 
+	pp = &ekfParam;
+	dd = &raw->DDObs;
 	Q = (int8_t)raw->DDObs.bFixed; //Q=1:fix,2:float,4:dgps,5:single
 	Q = (Q==-1)?5:((Q==0)?2:1);
 	xyz2blh(pos->Pos, BLH);
@@ -250,7 +252,7 @@ int outputPOSf(FILE *fp, pos_t *pos, raw_t *raw, char type) // match 'rtkplot.ex
 	}
 	else;
 	fprintf(fp, "%3d %5d ", Q, raw->DDObs.nFreq);
-	fprintf(fp, "%3f %3f %3f %3f %3f %3f %3f ", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); // std: no value
+	fprintf(fp, "%.6f %.6f %.6f %.6f %.6f %.6f %.6f ", SQRT_(pp->P_[0]), SQRT_(pp->P_[1*(3+dd->nFreq)+1]), SQRT_(pp->P_[2*(3+dd->nFreq)+2]), SQRT_(pp->P_[1]), SQRT_(pp->P_[1*(3+dd->nFreq)+2]), SQRT_(pp->P_[2]), pp->dt); // std: no value
 	fprintf(fp, "%7.1f\n", raw->DDObs.Ratio);
 
 	return 0;

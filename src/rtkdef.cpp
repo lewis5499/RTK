@@ -86,6 +86,7 @@ ekf_t::ekf_t()
 	nFreqs = p = q = n = m = 0;
 	T = H = v = C = X = P = Q = R = NULL;
 	Xlsq[0] = Xlsq[1] = Xlsq[2] = 0.0;
+	dt = 1.0;
 
 	for (i = 0; i < MAXFREQNUM; i++) {
 		Index_[i][0] = Index_[i][1] = Index[i][0] = Index[i][1] = -1;
@@ -120,6 +121,7 @@ void ekf_t::reset()
 {
 	X = P = Q = C = R = T = H = v = NULL;
 	p = q = n = m = 0;
+	dt = 1.0;
 	for (int i = 0; i < MAXFREQNUM; i++) {
 		AmbFixed[i] = 0;
 		AmbFloat[i] = 0.0;
@@ -160,7 +162,9 @@ void ekf_t::calcQ(raw_t *raw)
 			this->Q[i*this->q+j]=SQR(Pp[i*3+j]);	//m^2
 
 	for(i=3;i<this->q;i++) this->Q[i*this->q+i] = SQR(cfg.AmbBias); //cycle^2
-	matMul_s(diffTime(&this->Time, &this->preSD.Time), this->Q, this->Q, this->q*this->q);
+
+	this->dt = diffTime(&this->Time, &this->preSD.Time);
+	matMul_s(this->dt, this->Q, this->Q, this->q*this->q);
 }
 
 void ekf_t::calcT(raw_t *raw)

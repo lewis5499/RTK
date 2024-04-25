@@ -189,6 +189,7 @@ using namespace std;
 /* mathmatic functions */
 #define SQR(x)		((x)*(x))
 #define SQRT(x)     ((x)<=0.0||(x)!=(x)?0.0:sqrt(x))
+#define SQRT_(x)    ((x)>=0.0?sqrt(x):-sqrt(-(x)))
 #define MAX(x,y)    ((x)>(y)?(x):(y))
 #define MIN(x,y)    ((x)<(y)?(x):(y))
 #define ROUND(x)    (int)floor((x)+0.5)
@@ -548,6 +549,7 @@ struct ekf_t {
 	int	    Index_[MAXFREQNUM][2], Index[MAXFREQNUM][2];	// valid SDObs idx&freq &backup
 	int		AmbFixed[MAXFREQNUM];	// ambiguities that 'Fix and Hold', -1=not fixed or cycle-slip, 0=fixed
 	double	AmbFloat[MAXFREQNUM];	// LSQ float ambiguities
+	double  dt;
 	bool	IsInit;
 
 	ekf_t();
