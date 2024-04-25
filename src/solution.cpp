@@ -501,7 +501,7 @@ int filterspp(const double *Xk_1, const double *Pk_1, double *Xkk_1, double *Pkk
 	matTran(T, 6, 6, T_);
 	
 	/* state noise matrix */
-	for (int i = 0; i < 36; i++) Q[i] = 0.0;
+	zero(Q, 6, 6);
 	Q[0]  = SQR(cfg.RcvHoriBias)*dt;
 	Q[7]  = SQR(cfg.RcvHoriBias)*dt;
 	Q[14] = SQR(cfg.RcvHoriBias)*dt;
@@ -918,9 +918,7 @@ RECOMPUTE:
 	do {
 		/* Initialization */
 		sdIdx = 0, row = 0, col = 3, colGps=3, colBds=3+numGps, sta = 0, end = 0, ndd = 0;
-		for (i=0; i<num*2*(3+num); i++) B[i] = 0.0;
-		for (i=0; i<num*2*num*2;   i++)	P[i] = 0.0;
-		for (i=0; i<num*2*1;	   i++)	w[i] = 0.0;
+		zero(B, num*2, 3+num); zero(P, num*2, num*2); zero(w, num*2, 1);
 		for (i=0; i<raw->SDObs.SatNum; i++) RovDist[i] = geodist(raw->RovObs.SatPVT[sd_raw[i].nRov].SatPos, X);
 
 		/* Construct Matrix B, P, w */
@@ -1132,9 +1130,7 @@ int rtkFixed(raw_t *raw, pos_t *posBas, pos_t *posRov)
 
 				/* Initialization */
 				sdIdx = 0, row = 0, sta = 0, end = 0, ndd = 0;
-				for (i = 0; i < num*3; i++)	  B[i] = 0.0;
-				for (i = 0; i < num*num; i++) P[i] = 0.0;
-				for (i = 0; i < num; i++)	  w[i] = 0.0;
+				zero(B, num, 3); zero(P, num, num); zero(w, num, 1);
 				for (i = 0; i < raw->SDObs.SatNum; i++) dd->Rdist[i] = geodist(raw->RovObs.SatPVT[sd[i].nRov].SatPos, X);
 
 				/* Construct Matrix B, P, w */
@@ -1722,8 +1718,7 @@ int bdsposs(bdseph_t *ephbds, epoch_t *obs, const int prn_1, const bool isSPP, c
 		}
 		M = ephbds[prn_1].M0 + (n0 + ephbds[prn_1].DeltaN)*tk;
 		for (n = 0, E = M, Ek = 0.0; fabs(E - Ek) > RTOL_KEPLER&&n < MAX_ITER_KEPLER; n++) {
-			Ek = E; 
-			E -= (E - ephbds[prn_1].e*sin(E) - M) / (1.0 - ephbds[prn_1].e*cos(E));
+			Ek = E; E -= (E - ephbds[prn_1].e*sin(E) - M) / (1.0 - ephbds[prn_1].e*cos(E));
 		}
 		if (n >= MAX_ITER_KEPLER) {
 			tracef("[ERROR]: eph2pos: kepler iteration overflow BDS_prn=%d AT %d %f\n", ephbds[prn_1].PRN, obs->Time.Week, obs->Time.SecOfWeek);

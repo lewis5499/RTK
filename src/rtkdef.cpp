@@ -137,7 +137,7 @@ bool ekf_t::check()
 void ekf_t::initP()
 {
 	int i;
-	for(i=0;i<SQR((3+MAXFREQNUM));i++) this->P_[i]=0.0;
+	zero(this->P_, 3+MAXFREQNUM, 3+MAXFREQNUM);
 	for(i=0;i<3;i++) this->P_[i*this->p+i]=P0_XYZ;	//m^2
 	for(i=3;i<this->p;i++) this->P_[i*this->p+i]=P0_AMB; //cycle^2
 }
@@ -478,7 +478,7 @@ ddobs_t::ddobs_t()
 	memset(FreqRefIdx, -1, sizeof(int) * 4);
 	memset(nFreqSat, 0, sizeof(int) * 4);
 
-	for (i = 0; i < 4*MAXCHANNUM; i++) FixedAmb[i] = 0.0;
+	zero(FixedAmb, 4*MAXCHANNUM, 1);
 
 	X = Q = Rdist = Bdist = NULL;	// rtkFloat
 	SDlist = type = NULL;
@@ -501,7 +501,7 @@ void ddobs_t::reset()
 	memset(FreqRefIdx, -1, sizeof(int) * 4);
 	memset(nFreqSat, 0, sizeof(int) * 4);
 
-	for (i = 0; i < 4 * MAXCHANNUM; i++) FixedAmb[i] = 0.0;
+	zero(FixedAmb, 4*MAXCHANNUM, 1);
 
 	X = Q = Rdist = Bdist = NULL;	// rtkFloat
 	SDlist = type = NULL;
