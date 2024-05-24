@@ -2,6 +2,8 @@
 
 The RTK software supports dual-frequency, dual-system GPS (L1, L2) and BDS (BeiDou Navigation Satellite System) (B1I, B3I) signals for raw binary data in NovAtel OEM7 format.
 
+Contact me: lewis5499@whu.edu.cn
+
 ## 1 RTK Project Configuration Parameters
 
 The project's configuration file is rtkcfg.config in the ./config directory, providing different resolution parameters:
