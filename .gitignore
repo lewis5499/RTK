@@ -3,3 +3,9 @@ build/
 *.iobj
 *.ipdb
 *.pdb
+log/rtkBASE.oem719
+log/rtkROVER.oem719
+log/rtkROVER.oem719.log
+log/rtkROVER.oem719.pos
+log/rtkROVER.oem719.pos.cmp
+log/debug.trace
